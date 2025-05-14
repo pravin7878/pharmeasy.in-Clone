@@ -1,0 +1,951 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Travel Website API",
+    "description": "API documentation for the travel website",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Get API status",
+        "description": "Returns a simple OK response to check the API status.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "General"
+        ]
+      }
+    },
+    "/users/register": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "Allows a user to register with the provided name, email, password, and role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "John Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "johndoe@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "securepassword"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "201": {
+            "description": "User successfully registered"
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "User login",
+        "description": "Logs a user in with email and password to receive a JWT token.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "johndoe@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "securepassword"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "summary": "User logout",
+        "description": "Logs a user out by invalidating the session token.",
+        "responses": {
+          "200": {
+            "description": "Logout successful"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/refresh-token": {
+      "post": {
+        "summary": "Refresh JWT token",
+        "description": "Refreshes the user's JWT token using a provided refresh token.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "refreshToken": {
+                  "type": "string",
+                  "example": "oldrefresh-token"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token refreshed successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/organizer/register": {
+      "post": {
+        "summary": "Register a new organizer",
+        "description": "Allows an organizer to register with the provided name, email, password, and role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Event Organizer"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "organizer@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "organizerpassword"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "201": {
+            "description": "Organizer successfully registered"
+          }
+        },
+        "tags": [
+          "Organizer"
+        ]
+      }
+    },
+    "/trips/": {
+      "get": {
+        "summary": "Get all trips",
+        "description": "Retrieves a list of all available trips.",
+        "responses": {
+          "200": {
+            "description": "List of trips"
+          }
+        },
+        "tags": [
+          "Trips"
+        ]
+      },
+      "post": {
+        "summary": "Create a new trip",
+        "description": "Creates a new trip with the provided details.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Paris Trip"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "A beautiful trip to Paris with all-inclusive offers."
+                },
+                "startDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2025-05-01T09:00:00Z"
+                },
+                "endDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2025-05-10T09:00:00Z"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 1200
+                },
+                "slotsAvailable": {
+                  "type": "integer",
+                  "example": 50
+                },
+                "cancellationPolicy": {
+                  "type": "string",
+                  "enum": [
+                    "full refund",
+                    "50% refund",
+                    "no refund"
+                  ],
+                  "example": "full refund"
+                },
+                "organizerId": {
+                  "type": "string",
+                  "example": "507f1f77bcf86cd799439011"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Trip successfully created"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "Trips"
+        ]
+      }
+    },
+    "/trips/{id}": {
+      "get": {
+        "summary": "Get a specific trip",
+        "description": "Retrieves details of a specific trip by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trip details"
+          },
+          "404": {
+            "description": "Trip not found"
+          }
+        },
+        "tags": [
+          "Trips"
+        ]
+      },
+      "put": {
+        "summary": "Update a specific trip",
+        "description": "Updates details of a specific trip by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "destination": {
+                  "type": "string",
+                  "example": "Updated Paris"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 1200
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trip updated successfully"
+          },
+          "404": {
+            "description": "Trip not found"
+          }
+        },
+        "tags": [
+          "Trips"
+        ]
+      },
+      "delete": {
+        "summary": "Delete a specific trip",
+        "description": "Deletes a specific trip by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trip deleted successfully"
+          },
+          "404": {
+            "description": "Trip not found"
+          }
+        },
+        "tags": [
+          "Trips"
+        ]
+      }
+    },
+    "/cart/add": {
+      "post": {
+        "summary": "Add a trip to the cart",
+        "description": "This endpoint adds a trip to the user's cart. If the trip is already in the cart, it increments the quantity.",
+        "operationId": "addToCart",
+        "tags": [
+          "Cart"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tripId": {
+                    "type": "string",
+                    "description": "The unique ID of the trip to add to the cart"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "default": 1,
+                    "description": "The quantity of the trip to add to the cart"
+                  }
+                },
+                "required": [
+                  "tripId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trip successfully added to the cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip added to cart"
+                    },
+                    "cart": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string",
+                          "description": "The user's ID"
+                        },
+                        "trips": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "tripId": {
+                                "type": "string",
+                                "description": "The unique ID of the trip"
+                              },
+                              "quantity": {
+                                "type": "integer",
+                                "description": "The quantity of the trip in the cart"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data"
+          }
+        }
+      }
+    },
+    "/cart": {
+      "get": {
+        "summary": "Get the user's cart details",
+        "description": "This endpoint retrieves the details of the user's cart.",
+        "operationId": "getCart",
+        "tags": [
+          "Cart"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "description": "The user's ID"
+                    },
+                    "trips": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tripId": {
+                            "type": "string",
+                            "description": "The unique ID of the trip"
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "description": "The quantity of the trip in the cart"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - User needs to be authenticated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Clear the user's entire cart",
+        "description": "This endpoint clears all trips from the user's cart.",
+        "operationId": "clearCart",
+        "tags": [
+          "Cart"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart cleared successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Cart cleared successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - User needs to be authenticated"
+          }
+        }
+      }
+    },
+    "/cart/{tripId}": {
+      "delete": {
+        "summary": "Remove a trip from the cart",
+        "description": "This endpoint removes a specific trip from the user's cart.",
+        "operationId": "removeFromCart",
+        "tags": [
+          "Cart"
+        ],
+        "parameters": [
+          {
+            "name": "tripId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the trip to remove from the cart",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trip removed from cart successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip removed from cart"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Trip not found in the cart"
+          },
+          "401": {
+            "description": "Unauthorized - User needs to be authenticated"
+          }
+        }
+      }
+    },
+    "/bookings/checkout": {
+      "post": {
+        "summary": "Checkout booking",
+        "description": "Initiates the booking process for a trip.",
+        "responses": {
+          "201": {
+            "description": "Booking created successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/bookings/": {
+      "get": {
+        "summary": "Get all bookings",
+        "description": "Retrieves a list of all bookings for the authenticated user.",
+        "responses": {
+          "200": {
+            "description": "List of bookings"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/bookings/{id}": {
+      "get": {
+        "summary": "Get a specific booking",
+        "description": "Retrieves details of a specific booking by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Booking details"
+          },
+          "404": {
+            "description": "Booking not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/bookings/{id}/cancel": {
+      "put": {
+        "summary": "Cancel a booking",
+        "description": "Cancels a specific booking by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "refundStatus": {
+                  "type": "string",
+                  "example": "Refunded"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Booking canceled successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Booking not found"
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/bookings/{id}/quantity": {
+      "put": {
+        "summary": "Update booking quantity",
+        "description": "Updates the quantity of bookings for a specific booking.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "quantity": {
+                  "type": "integer",
+                  "example": 2
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quantity updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Booking not found"
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/bookings/{id}/refund": {
+      "put": {
+        "summary": "Process refund",
+        "description": "Processes a refund for a booking by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "Refunded"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refund processed successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Booking not found"
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50,
+          "example": "John Doe"
+        },
+        "email": {
+          "type": "string",
+          "pattern": "^\\S+@\\S+\\.\\S+$",
+          "example": "johndoe@example.com"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 6,
+          "example": "securepassword"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "customer",
+            "organizer"
+          ],
+          "default": "customer",
+          "example": "customer"
+        }
+      }
+    },
+    "Trip": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100,
+          "example": "Beach Vacation"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2000,
+          "example": "A relaxing vacation at the beach with plenty of activities."
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-12-01T10:00:00Z"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-12-15T10:00:00Z"
+        },
+        "price": {
+          "type": "number",
+          "minimum": 0,
+          "example": 199.99
+        },
+        "slotsAvailable": {
+          "type": "integer",
+          "minimum": 0,
+          "example": 10
+        },
+        "cancellationPolicy": {
+          "type": "string",
+          "enum": [
+            "full refund",
+            "50% refund",
+            "no refund"
+          ],
+          "default": "no refund",
+          "example": "full refund"
+        },
+        "organizerId": {
+          "type": "string",
+          "example": "507f1f77bcf86cd799439011"
+        }
+      }
+    },
+    "Booking": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "507f1f77bcf86cd799439011"
+        },
+        "tripId": {
+          "type": "string",
+          "example": "507f1f77bcf86cd799439012"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "confirmed",
+            "cancelled"
+          ],
+          "default": "confirmed",
+          "example": "confirmed"
+        },
+        "refundStatus": {
+          "type": "string",
+          "enum": [
+            "not processed",
+            "partial refund",
+            "full refund",
+            "no refund"
+          ],
+          "default": "not processed",
+          "example": "not processed"
+        },
+        "quantity": {
+          "type": "integer",
+          "default": 1,
+          "example": 2
+        },
+        "bookingDate": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2024-12-01T10:00:00Z"
+        }
+      }
+    },
+    "Cart": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "507f1f77bcf86cd799439011"
+        },
+        "trips": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tripId": {
+                "type": "string",
+                "example": "507f1f77bcf86cd799439012"
+              },
+              "quantity": {
+                "type": "integer",
+                "default": 1,
+                "example": 2
+              }
+            }
+          }
+        }
+      }
+    },
+    "Payment": {
+      "type": "object",
+      "properties": {
+        "bookingId": {
+          "type": "string",
+          "example": "507f1f77bcf86cd799439013"
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0,
+          "example": 399.98
+        },
+        "paymentStatus": {
+          "type": "string",
+          "enum": [
+            "successful",
+            "failed",
+            "pending"
+          ],
+          "default": "pending",
+          "example": "successful"
+        }
+      }
+    }
+  }
+}

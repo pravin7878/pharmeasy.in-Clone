@@ -1,0 +1,32 @@
+{
+  "name": "travel-website-development",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "generate-docs": "nodemon --watch src/routes --watch src/controllers --exec \"node src/config/Swagger.js\""
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "mvc",
+    "setup",
+    "backend"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "A simple Express server setup package for MVC architecture with MongoDB",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.1",
+    "nodemon": "^3.1.7",
+    "swagger-autogen": "^2.23.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-to-md": "^1.0.0",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
