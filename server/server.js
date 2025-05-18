@@ -16,18 +16,17 @@ const {
 
 // routes
 const userRouter = require("./src/routes/user")
-const organizerRouter = require("./src/routes/organizer")
+const adminRouter = require("./src/routes/admin")
 const productRouter = require("./src/routes/Product")
 const bookingRouter = require("./src/routes/booking")
 const cartRouter = require("./src/routes/cart")
-
+const sellerRouter = require("./src/routes/seller")
 
 const app = express()
 const port = process.env.PORT || 3000
 
 const allowedOrigins = [
-  "https://smart-trips.vercel.app",
-  "http://localhost:5173",
+     "http://localhost:5173",
 ];
 
 const corsOptions = {
@@ -50,8 +49,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.get("/" , (req,res)=>{
     res.send("wellcome to server")
 })
-app.use("/users", userRouter);
-app.use("/organizer" , organizerRouter);
+app.use("/user", userRouter);
+app.use("/admin" , adminRouter);
+app.use("/seller" , sellerRouter);
 app.use("/products" , productRouter)
 app.use("/bookings", bookingRouter);
 app.use("/cart", cartRouter);

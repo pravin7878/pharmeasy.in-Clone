@@ -23,19 +23,29 @@ const productSchema = new mongoose.Schema({
 
   inStock: {
     type: Boolean,
-    required: [true, "Number of slots available is required"],
-    min: [0, "Slots available must be greater than or equal to 0"],
-  },
 
+  },
+quantity : {
+   type : Number,
+   min: [0, "quantity must be greater than or equal to 0"],
+   default : 0
+},
   catagory : {
     type : String,
   },
   
-  organizerId: {
+  sellerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: [true, "Organizer ID is required"],
+    required: [true, "Seller ID is required"],
   },
+});
+
+
+// Hook to update `inStock` based on `quantity`
+productSchema.pre("save", function (next) {
+  this.inStock = this.quantity > 0;
+  next();
 });
 
 module.exports = mongoose.model("Product", productSchema);

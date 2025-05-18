@@ -1,21 +1,14 @@
 {
-  "name": "travel-website-development",
+  "name": "ecommers-backend",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
     "generate-docs": "nodemon --watch src/routes --watch src/controllers --exec \"node src/config/Swagger.js\""
   },
-  "keywords": [
-    "express",
-    "mongodb",
-    "mvc",
-    "setup",
-    "backend"
-  ],
   "author": "",
   "license": "ISC",
-  "description": "A simple Express server setup package for MVC architecture with MongoDB",
+  "description": "A simple Express server for ecommers",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",

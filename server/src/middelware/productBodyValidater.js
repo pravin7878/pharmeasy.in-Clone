@@ -27,40 +27,12 @@ const validateProductBody = (req, res, next) => {
     });
   }
 
-  // // Validate `startDate`
-  // const start = new Date(startDate);
-  // if (!startDate || isNaN(start) || start < Date.now()) {
-  //   return res.status(400).json({
-  //     error: "Invalid 'startDate'. It must be a valid date in the future.",
-  //   });
-  // }
-
-  // Validate `endDate`
-  // const end = new Date(endDate);
-  // if (!endDate || isNaN(end) || end <= start) {
-  //   return res.status(400).json({
-  //     error: "Invalid 'endDate'. It must be a valid date after 'startDate'.",
-  //   });
-  // }
-
   // Validate `price`
   if (price === undefined || typeof price !== "number" || price < 0) {
     return res.status(400).json({
       error: "Invalid 'price'. It must be a number greater than or equal to 0.",
     });
   }
-
-  // Validate `slotsAvailable`
-  // if (
-  //   slotsAvailable === undefined ||
-  //   typeof slotsAvailable !== "number" ||
-  //   slotsAvailable < 0
-  // ) {
-  //   return res.status(400).json({
-  //     error:
-  //       "Invalid 'slotsAvailable'. It must be a number greater than or equal to 0.",
-  //   });
-  // }
 
   // If all validations pass
   next();

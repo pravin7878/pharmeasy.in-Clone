@@ -28,8 +28,8 @@ const generateToken = (user) => {
   return { accessToken, refreshToken };
 };
 
-// Register a user or organizer (shared logic)
-const registerUserOrOrganizer = async (req, res, next, role = roles.customer) => {
+// Register a user or Admin (shared logic)
+const registerUserOrAdmin = async (req, res, next, role = roles.customer) => {
   const { name, email, password } = req.body;
 
   try {
@@ -50,12 +50,17 @@ const registerUserOrOrganizer = async (req, res, next, role = roles.customer) =>
 
 // Register user
 const registerUser = (req, res, next) => {
-  registerUserOrOrganizer(req, res, next, roles.customer);
+  registerUserOrAdmin(req, res, next, roles.customer);
 };
 
-// Register organizer
-const registerOrganizer = (req, res, next) => {
-  registerUserOrOrganizer(req, res, next, roles.organizer);
+// Register admin
+const registerAdmin = (req, res, next) => {
+  registerUserOrAdmin(req, res, next, roles.admin);
+};
+
+// Register Seller
+const registerSeller = (req, res, next) => {
+  registerUserOrAdmin(req, res, next, roles.seller);
 };
 
 // Login user
@@ -131,6 +136,7 @@ module.exports = {
   registerUser,
   loginUser,
   logOutUser,
-  registerOrganizer,
+  registerAdmin,
   refreshAccessToken,
+  registerSeller,
 };

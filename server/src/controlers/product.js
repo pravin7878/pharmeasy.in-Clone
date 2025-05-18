@@ -3,12 +3,13 @@ const Product = require("../models/Product");
 // Create a new product
 exports.createProduct = async (req, res, next) => {
   const {userId} = req.user
-  const { name, description, price, organizerId ,catagory,inStock } =
+  console.log(req.user)
+  const { name, description, price ,catagory,quantity } =
     req.body;
   try {
-    const product = new Product({name , description  , price , organizerId ,catagory,inStock});
+    const product = new Product({name , description  , price , sellerId : userId ,catagory , quantity});
     const savedProduct = await product.save();
-    res.status(201).json({ message: "New Trip Added Successfully", savedProduct });
+    res.status(201).json({ message: "New Product Added Successfully", savedProduct });
   } catch (error) {
     next(error); 
   }
@@ -17,7 +18,7 @@ exports.createProduct = async (req, res, next) => {
 // Get all product
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const product = await Product.find().populate("organizerId", "name email");
+    const product = await Product.find().populate("sellerId", "name email");
     res.status(200).json(product);
   } catch (error) {
     next(error);
@@ -28,7 +29,7 @@ exports.getAllProducts = async (req, res, next) => {
 exports.getProductById = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id).populate(
-      "organizerId",
+      "sellerId",
       "name email"
     );
     if (!product) {
